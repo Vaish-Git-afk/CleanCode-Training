@@ -1,0 +1,41 @@
+Review 1
+Comments => "VariableNameShouldBeDescriptive"
+Suggestion => "elapsedTimeInDays"
+
+Review 2
+Comments => "VariableNameShouldBeDescriptive"
+Suggestion => "employeesList"
+
+Review 3
+Comments => "HungarianNotationShouldBeAvoided,NotUsedAnymore"
+Suggestion =>
+iCounter → counter
+strFullName → fullName
+dModifiedDate → modifiedDate
+
+Review 4
+Comments => "ParameterNamesShouldBeMeaningful, NoNeedToMentionP"
+Suggestion =>
+pDay → dayOfWeek
+pAmount → amountSpent
+
+Review 5
+Comments => "ConsistentNamingConvention"
+Suggestion =>
+daysInMonth → DAYS_IN_MONTH (should be uppercase like DAYS_IN_WEEK)
+Artists → artists (should follow camelCase like songs)
+Restore_database → RestoreDatabase (should follow PascalCase like EraseDatabase)
+animal → Animal (class names should start with uppercase)
+
+Review 6
+Comments => "PropertyNamesShouldBeDescriptiveAndConsistent"
+Suggestion =>
+sWorkDate → startWorkDate
+modTime → modificationTime
+
+Review 7
+Comments => "VariableNameShouldBeMeaningful"
+Suggestion =>
+employeephone → employeePhoneNumber
+workingdays → workingDays
+workinghours → workingHours
