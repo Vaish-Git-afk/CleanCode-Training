@@ -1,0 +1,57 @@
+Refactored 1: ProcessOrder Method
+Issues:
+
+Violates Single Responsibility Principle (SRP) by handling validation, calculations, database updates, and email sending in one method.
+
+Nested logic makes it less readable.
+
+Magic numbers (e.g., 0.1m, 0.9m) should be replaced with constants.
+
+Refactored Code:
+
+public class OrderProcessor
+{
+    private readonly AppDbContext _db;
+    private readonly EmailService _emailService;
+    private const decimal TaxRate = 0.1m;
+    private const decimal PremiumDiscount = 0.9m;
+
+    public OrderProcessor(AppDbContext db, EmailService emailService)
+    {
+        _db = db;
+        _emailService = emailService;
+    }
+
+    public void ProcessOrder(Order order)
+    {
+        ValidateOrder(order);
+        decimal total = CalculateTotal(order);
+        SaveOrder(order, total);
+        SendOrderConfirmation(order.Customer.Email, total);
+    }
+
+    private void ValidateOrder(Order order)
+    {
+        if (order == null) throw new ArgumentNullException(nameof(order));
+        if (!order.Items.Any()) throw new InvalidOperationException("Empty order");
+    }
+
+    private decimal CalculateTotal(Order order)
+    {
+        decimal total = order.Items.Sum(item => item.Price * item.Quantity);
+        total += order.Items.Where(item => item.IsTaxable).Sum(item => item.Price * TaxRate);
+        return order.Customer.IsPremium ? total * PremiumDiscount : total;
+    }
+
+    private void SaveOrder(Order order, decimal total)
+    {
+        order.Total = total;
+        _db.Orders.Add(order);
+        _db.SaveChanges();
+    }
+
+    private void SendOrderConfirmation(string email, decimal total)
+    {
+        _emailService.Send(email, "Order Confirmed", $"Total: ${total}");
+    }
+}
